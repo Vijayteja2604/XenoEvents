@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String          @id // This will match the Supabase auth.users.id
+  email          String          @unique // This will match the email in auth.users
+  phoneNumber    String?
+  fullName       String?
+  profilePicture String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  EventTeam      EventTeam[]
+  EventAttendee  EventAttendee[]
+}
+
+model Event {
+  id              Int             @id @default(autoincrement())
+  eventId         String          @unique
+  name            String
+  description     String
+  organizer       String
+  startDate       String
+  endDate         String
+  locationType    LocationType // "venue" or "online"
+  locationId      String?
+  meetingLink     String? // For online events
+  coverImage      String? // URL to the image
+  capacity        Int?
+  price           Int?
+  priceType       PriceType       @default(FREE) // "free" or "paid"
+  visibility      VisibilityType  @default(PUBLIC) // "public" or "private"
+  requireApproval Boolean         @default(false)
+  websiteUrl      String?
+  contactPersons  ContactPerson[]
+  team            EventTeam[] // Creator and admins
+  attendees       EventAttendee[] // Attendees
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  location        Location?       @relation(fields: [locationId], references: [id])
+}
+
+model Location {
+  id                        String   @id @default(cuid())
+  placeId                   String? // Google Places API ID
+  description               String
+  mainText                  String?
+  secondaryText             String?
+  locationAdditionalDetails String?
+  latitude                  Float?
+  longitude                 Float?
+  isCustom                  Boolean? @default(false)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+  Event                     Event[]
+}
+
+model ContactPerson {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   Int?
+}
+
+model EventTeam {
+  id        String    @id @default(cuid())
+  eventId   Int
+  event     Event     @relation(fields: [eventId], references: [id])
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  role      EventRole
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([eventId, userId]) // A user can have only one role per event
+  @@index([eventId])
+  @@index([userId])
+}
+
+model EventAttendee {
+  id               String   @id @default(cuid())
+  eventId          String
+  event            Event    @relation(fields: [eventId], references: [eventId])
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  isApproved       Boolean  @default(false)
+  ticketId         String?  @unique
+  ticketCode       String?  @unique
+  registrationDate DateTime @default(now())
+  checkInDate      String?  @default("Not checked in")
+  updatedAt        DateTime @updatedAt
+
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@index([userId])
+  @@index([ticketCode])
+}
+
+enum LocationType {
+  VENUE
+  ONLINE
+}
+
+enum PriceType {
+  FREE
+  PAID
+}
+
+enum VisibilityType {
+  PUBLIC
+  PRIVATE
+}
+
+enum EventRole {
+  CREATOR
+  ADMIN
+}

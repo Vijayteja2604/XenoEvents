@@ -1,0 +1,378 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
+.ticket-gradient-text {
+  background: linear-gradient(
+    to right,
+    #3b82f6 20%,
+    #60a5fa 30%,
+    #93c5fd 70%,
+    #3b82f6 80%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 4.5s linear infinite;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Basic editor styles */
+.ProseMirror {
+  min-height: 100px;
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+}
+
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Add these styles to your existing ProseMirror styles */
+
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 1.75em;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid #e5e7eb;
+    color: #6b7280;
+    font-style: italic;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+    font-family: monospace;
+  }
+
+  ul[data-type="bulletList"] {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    color: black;
+    li {
+      color: black;
+      &::marker {
+        color: black;
+      }
+    }
+  }
+
+  ol[data-type="orderedList"] {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    color: black;
+    li {
+      color: black;
+      &::marker {
+        color: black;
+      }
+    }
+  }
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Add these styles for the read-only editor */
+.ProseMirror.readonly {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  h1 {
+    font-size: 1.75em;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 1.3em;
+  }
+
+  ul[data-type="bulletList"] {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    color: black;
+    li {
+      color: black;
+      &::marker {
+        color: black;
+      }
+    }
+  }
+
+  ol[data-type="orderedList"] {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    color: black;
+    li {
+      color: black;
+      &::marker {
+        color: black;
+      }
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid #e5e7eb;
+    padding-left: 1em;
+    color: #6b7280;
+    font-style: italic;
+    margin: 1em 0;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+    font-family: monospace;
+  }
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+.ProseMirror.readonly:focus {
+  outline: none;
+}
+
+/* Update the ProseMirror styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  /* Make bullet lists more visible */
+  ul {
+    list-style-type: disc !important;
+    padding-left: 1.5em !important;
+    margin: 0.5em 0;
+  }
+
+  ul li {
+    color: rgb(55, 65, 81) !important; /* Force darker text color */
+  }
+
+  ul li::marker {
+    color: rgb(55, 65, 81) !important; /* Force darker bullet color */
+    font-size: 1.2em; /* Make bullets slightly larger */
+  }
+
+  /* Make numbered lists more visible */
+  ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5em !important;
+    margin: 0.5em 0;
+  }
+
+  ol li {
+    color: rgb(55, 65, 81) !important; /* Force darker text color */
+  }
+
+  ol li::marker {
+    color: rgb(55, 65, 81) !important; /* Force darker number color */
+    font-weight: 500; /* Make numbers slightly bolder */
+  }
+
+  /* Ensure proper spacing for nested lists */
+  ul ul,
+  ol ol,
+  ul ol,
+  ol ul {
+    margin: 0;
+  }
+
+  /* Rest of your existing styles... */
+}
+
+/* Apply the same styles to the readonly editor */
+.ProseMirror.readonly {
+  ul {
+    list-style-type: disc !important;
+    padding-left: 1.5em !important;
+    margin: 0.5em 0;
+  }
+
+  ul li {
+    color: rgb(55, 65, 81) !important;
+  }
+
+  ul li::marker {
+    color: rgb(55, 65, 81) !important;
+    font-size: 1.2em;
+  }
+
+  ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5em !important;
+    margin: 0.5em 0;
+  }
+
+  ol li {
+    color: rgb(55, 65, 81) !important;
+  }
+
+  ol li::marker {
+    color: rgb(55, 65, 81) !important;
+    font-weight: 500;
+  }
+
+  ul ul,
+  ol ol,
+  ul ol,
+  ol ul {
+    margin: 0;
+  }
+}
